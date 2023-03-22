@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="zh-cn">
+
+
+<!--标签页标题-->
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="shortcut icon" href="src/icon.png" />
+    <title>羽毛球大作战</title>
+</head>
+
+<body>
+    <!--游戏结果-->
+    <div class="gameresult" id="gameresult" style="display: none;">
+        <p id="result" style="position: relative; margin-top: 100px; font-size: 54px;">YOU WIN!</p>
+        <div class="postdiv">
+            <button onclick="ResultConfirm()">OK</button>
+        </div>
+    </div>
+
+    <div class="BattleFieldContainer">
+        <!--游戏内标题-->
+        <h1>🏸羽毛球大作战🎮</h1>
+        <!--球场和球网-->
+        <div class="BattleField" id="BattleField">
+            <div class="VerticalBlank"></div>
+            <div class="VerticalLine"></div>
+        </div>
+        <!--玩家和羽毛球-->
+        <div id="Player1Div" class="PlayerDiv">
+            <img id="Player1Img" class="PlayerImg" src="src/player/P1_0.png">
+            <img id="Player1Racket" class="RacketImg" src="src/player/R1.png">
+        </div>
+        <div id="Player2Div" class="PlayerDiv">
+            <img id="Player2Img" class="PlayerImg" src="src/player/P2_0.png">
+            <img id="Player2Racket" class="RacketImg" src="src/player/R2.png">
+        </div>
+        <div id="theBall" class="theBall"></div>
+    </div>
+
+    <!--玩家信息-->
+    <div class="PlayerInfo">
+        <h1 id="user"></h1>
+        <a href="/logout" style="display: none;">退出登录</a>
+        <div class="Score">
+            <span>玩家1:<span id="P1Score">0</span></span>
+            <span>玩家2:<span id="P2Score">0</span></span>
+        </div>
+        <button id="StartButton" disabled>Start!</button>
+        <button onclick="queryRecord()">查询战绩</button>
+        <div id="list-container"></div>
+    </div>
+
+</body>
+<!--引用的JavaScript文件-->
+<script src="src/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="src/main.js"></script>
+
+</html>

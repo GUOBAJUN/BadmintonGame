@@ -1,0 +1,50 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" href="css/login.css" />
+    <link rel="shortcut icon" href="src/icon.png" />
+    <title>羽毛球大作战</title>
+</head>
+
+<body>
+    <!--游戏内标题-->
+    <h1>🏸羽毛球大作战🎮</h1>
+    <!--登录注册表单-->
+    <div class="form_container">
+        <!--登录-->
+        <form id="login_form" action="/login" method="POST">
+            <h1>登录</h1>
+            <label>用户名:</label>
+            <input type="text" id="username" name="username" placeholder="您的用户名" required>
+            <label>密码:</label>
+            <input type="password" id="password" name="password" placeholder="8-16位且包含大小写字母、数字或特殊字符中的三种" required>
+            <input type="submit" value="登录">
+            <p>还没有账号？立即<a href="#" id="register_link" style="text-decoration: none; color: #43A047;">注册</a>！</p>
+            <p id="tips" style="text-decoration: none; color: #d20000; display: none;">错误提示</p>
+        </form>
+        <!--注册-->
+        <form id="register_form" action="/login" method="POST">
+            <h1>注册</h1>
+            <label>用户名:</label>
+            <input type="text" id="register_username" name="register_username" placeholder="您的用户名" required>
+            <label>密码:</label>
+            <input type="password" id="register_password" name="register_password" placeholder="8-16位且包含大小写字母、数字或特殊字符中的三种" required>
+            <label>重复密码:</label>
+            <input type="password" id="repeat_password" name="repeat_password" placeholder="与您之前的密码一致" required>
+            <input type="submit" value="注册">
+            <p>已有账号？立即<a href="#" id="login_link" style="text-decoration: none; color: #43A047;">登录</a>？</p>
+            <p id="regtips" style="text-decoration: none; color: #d20000; display: none;">错误提示</p>
+        </form>
+    </div>
+</body>
+
+<!--使用到的Javascript代码-->
+<script src="src/jquery-3.5.1.js"></script>
+<script type="text/javascript" src="src/login.js"></script>
+
+</html>
