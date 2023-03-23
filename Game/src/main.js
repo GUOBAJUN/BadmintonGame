@@ -36,12 +36,12 @@ client.onopen = () => {                                      // 连接到应用�
 }
 
 client.onclose = () => {                                     // 断开连接 
-    window.location.href = '/logout';
+    window.location.href = '/api/logout';
 }
 
 client.onerror = () => {                                     // 服务器崩了
     alert('无法连接到服务器...');
-    window.location.href = '/logout';
+    window.location.href = '/api/logout';
 }
 
 /**
@@ -109,7 +109,7 @@ function responseConnect(data) {
         document.getElementById('StartButton').disabled = false;
     else {
         alert(`服务器拒绝了我们的连接！请尝试重新登录\n原因：${data.reason}`);
-        window.location.href = '/logout';
+        window.location.href = '/api/logout';
         return;
     }
     // 显示用户信息

@@ -19,10 +19,9 @@ $(document).ready(function () {
         const form = $(this);
         const username = form.find('#username').val();
         const password = form.find('#password').val();
-        const type = 'login';
-        const loginData = { type, username, password };
+        const loginData = { username, password };
         $.ajax({
-            url: '/login',
+            url: '/api/login',
             method: 'POST',
             data: JSON.stringify(loginData),
             contentType: 'application/json',
@@ -77,10 +76,9 @@ $(document).ready(function () {
             document.getElementById('regtips').style.display = '';
             return;
         }
-        const type = 'register';
-        const registerData = { type, username, password };
+        const registerData = { username, password };
         $.ajax({
-            url: '/login',
+            url: '/api/register',
             method: 'POST',
             data: JSON.stringify(registerData),
             contentType: 'application/json',
