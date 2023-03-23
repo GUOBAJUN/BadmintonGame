@@ -82,10 +82,7 @@ router.get('/index', (req, res) => {
     }
 })
 
-
-
-
-const apiRouter = new express.Router();
+const apiRouter = new express.Router(); // API路由，处理账号相关请求
 
 /**
  * 处理: POST /api/login请求
