@@ -200,7 +200,7 @@ function PlayerJoin(data) {
     Player2.Div.style.display = 'flex';
     if (myID === 0) {
         Player2.Body.src = `src/player/P2_1.png`;
-        Player2.Racket.src = 'src/Player/R2.png';
+        Player2.Racket.src = 'src/player/R2.png';
         Player2.Div.style.left = `${data.pX4R}px`;
         Player2.positionX = data.pX4R;
     }
