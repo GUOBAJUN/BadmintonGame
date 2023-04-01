@@ -47,8 +47,6 @@ $(document).ready(function () {
         const username = form.find('#register_username').val();
         const password = form.find('#register_password').val();
         const repeat = form.find('#repeat_password').val();
-        console.log(form.find('#register_password'))
-        console.log(password);
         //正则表达式判断是否符合要求
         const uppercasRegex = /[A-Z]/;
         const lowercasRegex = /[a-z]/;
