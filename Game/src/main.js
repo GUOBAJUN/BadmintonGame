@@ -15,11 +15,8 @@ let token;                                                   // 登录令牌(有
 
 const leftBorder = 0;                                        // 球场左边界X值 -> 使用了BattleFieldContainer后, leftBorder变为0
 
-// 升级协议到WebSocket 对应不同情况下的服务器IP
-// let client = new WebSocket("ws://192.168.197.155:10086"); // 手机热点
-// const client = new WebSocket('ws://47.98.106.205:10086'); // 阿里云服务器
-// const client = new WebSocket("ws://10.129.82.124:10086"); // NUDT-WLAN
-const client = new WebSocket("ws://127.0.0.1:10086");        // Localhost
+// 升级协议到WebSocket
+const client = new WebSocket(`ws://${window.location.hostname}:10086`);
 
 let theBall = {                                              // 客户端羽毛球实例
     positionX: 500,
