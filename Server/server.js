@@ -411,6 +411,15 @@ async function PlayerHit(data, userid) {
 }
 
 /**
+ * 功能: 日志打印
+ * @param {String} msg 
+ */
+function LogMsg(msg) {
+    let date = new Date()
+    console.log(`[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]${msg}`);
+}
+
+/**
  * 功能: 根据收到的消息的类型, 调用对应的函数, 实现相应的功能
  * @param {Object} data 收到的数据
  * @param {Number} userid 玩家ID
@@ -516,12 +525,11 @@ async function RecordQuery(data, userid) {
 
 // 启用WebSocket服务器, 监听(默认)10086端口, 支持压缩传输
 const server = new WebSocket.Server({ port: PORT, perMessageDeflate: true }, () => {
-    console.log('Game server up!')
+    LogMsg('Info: Game Server UP!')
 });
 
 // 处理连接
 server.on('connection', async (connect, req) => {
-    console.log(`New Connection from ${req.socket.remoteAddress}:${req.socket.remotePort}`);
     let userid = -1;
     connect.on('message', async (msg) => {
         let data = JSON.parse(msg);
@@ -531,16 +539,19 @@ server.on('connection', async (connect, req) => {
             // console.log(req.headers.cookie);
             jwt.verify(data.token, config.tokenSecret, { algorithms: 'HS256' }, (error, decryped) => {
                 if (error) {
+                    LogMsg(`Audit: Invalid token - ${data.username}`);
                     connect.send(JSON.stringify({ type: 'responseConnect', result: 'failed', reason: '凭据错误，请重新登录' }));
                     connect.close();
                     return;
                 } else {
                     if (data.userid != decryped.userid || data.username !== decryped.username) {
+                        LogMsg(`Audit: Invalid token - ${data.username}`);
                         connect.send(JSON.stringify({ type: 'responseConnect', result: 'failed', reason: '凭据错误，请重新登录' }));
                         connect.close();
                         return;
                     }
                     if (user[decryped.userid] !== undefined) {
+                        LogMsg(`Audit: Repeated login - ${data.username}`);
                         connect.send(JSON.stringify({ type: 'responseConnect', result: 'failed', reason: '已在别处登录' }));
                         connect.close();
                         return;
@@ -550,6 +561,7 @@ server.on('connection', async (connect, req) => {
                     user[userid] = new Object;
                     user[userid].username = decryped.username;
                     user[userid].state = 'login';
+                    LogMsg(`Info: ${data.username} has logged in & the socket is ${req.socket.remoteAddress}:${req.socket.remotePort}`);
                     connect.send(JSON.stringify({ type: 'responseConnect', result: 'pass', userid: decryped.userid, username: decryped.username }));
                 }
             })
@@ -558,14 +570,14 @@ server.on('connection', async (connect, req) => {
     })
 
     connect.on('close', async (code, reason) => {
-        console.log(`connection from ${req.socket.remoteAddress} closed`);
-        console.log(`code: ${code}`);
-        console.log(`reason: ${reason}`);
+        LogMsg(`Info: connection from ${req.socket.remoteAddress}:${req.socket.remotePort} closed`);
+        // console.log(`code: ${code}`);
+        // console.log(`reason: ${reason}`);
         NetworkHaltHandler(userid);
     })
 
     connect.on('error', async (code, reason) => {
-        console.log(`an error occurred from ${req.socket.remoteAddress}`);
+        LogMsg(`Warn: an error occurred from ${req.socket.remoteAddress}`);
         console.log(`code: ${code}`);
         console.log(`reason: ${reason}`);
         NetworkHaltHandler(userid);

@@ -116,8 +116,10 @@ apiRouter.post('/login', (req, res) => {
                 req.session.userid = data.ID; // 配置Session
                 let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' })
                 req.session.token = token;
+                LogMsg(`Info: ${data.USERNAME} has logged in`);
                 return res.status(200).setHeader('set-cookies', req.session.cookie).send({ success: true, msg: '登录成功', username: body.username, id: data.ID, token: token });
             } else {
+                LogMsg(`Audit: Wrong passwd - ${data.USERNAME}`);
                 return res.status(401).send({ success: false, msg: '密码错误，请检查用户名或密码' });
             }
         }
@@ -143,10 +145,12 @@ apiRouter.post('/register', (req, res) => {
         }
     }).then((data) => {
         if (data !== undefined) {
+            LogMsg(`Audit: Repeated Register ${body.username}`);
             return res.status(400).send({ success: false, msg: '该用户已存在' })
         } else {
             let pwd = md5(body.password);
             let result = ins.run(body.username, pwd);
+            LogMsg(`Info: New user registered - ${body.username}`);
             res.status(200).send({ success: true, msg: '注册成功' }) // 更新数据库
         }
     })
@@ -159,6 +163,7 @@ apiRouter.post('/register', (req, res) => {
 apiRouter.get('/logout', (req, res) => {
     req.session.isLogin = false;
     req.session.token = '';
+    LogMsg(`${req.session.username} has logged out`);
     return res.status(200).redirect('/login')
 })
 
@@ -166,5 +171,14 @@ app.use('/', router);  // 启用'/'路由
 app.use(apiRoot, apiRouter); //启用api路由
 
 app.listen(port, () => { // 监听(默认)8080端口,并打印日志
-    console.log('web server up!');
+    LogMsg('Info: Web Server UP!')
 })
+
+/**
+ * 功能: 日志打印
+ * @param {String} msg 
+ */
+function LogMsg(msg) {
+    let date = new Date()
+    console.log(`[${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}]${msg}`);
+}
