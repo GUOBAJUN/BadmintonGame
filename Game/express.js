@@ -54,6 +54,8 @@ const router = new express.Router();                                            
  */
 router.get('/', (req, res) => {
     if (req.session !== undefined && req.session.isLogin == true) {
+        let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
+        req.session.token = token;
         return res.status(200).redirect(`index.html?username=${req.session.username}&id=${req.session.userid}&token=${req.session.token}`)
     }
     res.sendFile(path.join(__dirname, 'login.html'));
@@ -65,6 +67,8 @@ router.get('/', (req, res) => {
  */
 router.get('/login', (req, res) => {
     if (req.session !== undefined && req.session.isLogin === true) {
+        let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
+        req.session.token = token;
         return res.status(200).redirect(`index.html?username=${req.session.username}&id=${req.session.id}&token=${req.session.token}`)
     }
     res.sendFile(path.join(__dirname, 'login.html'));
@@ -114,7 +118,7 @@ apiRouter.post('/login', (req, res) => {
                 req.session.isLogin = true;
                 req.session.username = data.USERNAME;
                 req.session.userid = data.ID; // 配置Session
-                let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' })
+                let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
                 req.session.token = token;
                 LogMsg(`Info: ${data.USERNAME} has logged in`);
                 return res.status(200).setHeader('set-cookies', req.session.cookie).send({ success: true, msg: '登录成功', username: body.username, id: data.ID, token: token });
