@@ -91,7 +91,7 @@ $(document).ready(function () {
             },
             error: (data) => {
                 console.error('Register failed');
-                document.getElementById('regtips').textContent = data.msg;
+                document.getElementById('regtips').textContent = data.responseJSON.msg;
                 document.getElementById('regtips').style.display = '';
             }
         })
