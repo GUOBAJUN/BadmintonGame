@@ -163,7 +163,7 @@ apiRouter.post('/register', (req, res) => {
 apiRouter.get('/logout', (req, res) => {
     req.session.isLogin = false;
     req.session.token = '';
-    LogMsg(`${req.session.username} has logged out`);
+    LogMsg(`Info: ${req.session.username} has logged out`);
     return res.status(200).redirect('/login')
 })
 
