@@ -282,13 +282,6 @@ document.addEventListener('keyup', (e) => {
 }, false);
 
 /**
- * 功能: 刷新或关闭网页前先断开WebSocket连接
- */
-window.addEventListener('beforeunload', (e) => {
-    client.close();
-})
-
-/**
  * 功能: 点击开始按钮后, 请求服务器分配玩家身份(左侧玩家, 右侧玩家)
  */
 function requestID() {
@@ -306,7 +299,7 @@ function responseHalt() {
     Player1.Div.style.display = 'none';
     Player2.Div.style.display = 'none';
     theBall.Div.style.display = 'none';
-    document.getElementById('StartButton').textContent='restart!';
+    document.getElementById('StartButton').textContent = 'restart!';
 }
 
 /**

@@ -54,7 +54,7 @@ const router = new express.Router();                                            
  */
 router.get('/', (req, res) => {
     if (req.session !== undefined && req.session.isLogin == true) {
-        let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
+        let token = jwt.sign({ username: req.session.username, userid: req.session.userid }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
         req.session.token = token;
         return res.status(200).redirect(`index.html?username=${req.session.username}&id=${req.session.userid}&token=${req.session.token}`)
     }
@@ -67,7 +67,7 @@ router.get('/', (req, res) => {
  */
 router.get('/login', (req, res) => {
     if (req.session !== undefined && req.session.isLogin === true) {
-        let token = jwt.sign({ username: data.USERNAME, userid: data.ID }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
+        let token = jwt.sign({ username: req.session.username, userid: req.session.userid }, config.tokenSecret, { expiresIn: '1m', algorithm: 'HS256' });
         req.session.token = token;
         return res.status(200).redirect(`index.html?username=${req.session.username}&id=${req.session.id}&token=${req.session.token}`)
     }
@@ -165,9 +165,8 @@ apiRouter.post('/register', (req, res) => {
  * 功能: 推出登录并返回登录界面
  */
 apiRouter.get('/logout', (req, res) => {
-    req.session.isLogin = false;
-    req.session.token = '';
     LogMsg(`Info: ${req.session.username} has logged out`);
+    req.session.destroy();
     return res.status(200).redirect('/login')
 })
 
