@@ -35,7 +35,7 @@ $(document).ready(function () {
             },
             error: (data) => {
                 console.error('Login failed');
-                document.getElementById('tips').textContent = data.msg;
+                document.getElementById('tips').textContent = data.responseJSON.msg;
                 document.getElementById('tips').style.display = '';
             }
         })
