@@ -1,2 +1,4 @@
 Game/node_modules/
 Server/node_modules/
+Game/*.db
+Server/*.db
